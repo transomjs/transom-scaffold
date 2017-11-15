@@ -25,6 +25,7 @@
     "node": ">= 6"
   },
   "devDependencies": {
+    "@transomjs/transom-core": "^1.0.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.1",
@@ -33,6 +34,9 @@
     "nyc": "^11.2.1",
     "shelljs": "^0.7.8",
     "sinon": "^4.1.1"
+  },
+  "peerDependencies": {
+    "@transomjs/transom-core": "^1.0.0"
   },
   "dependencies": {}
 }
