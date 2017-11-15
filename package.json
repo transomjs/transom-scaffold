@@ -1,6 +1,6 @@
 {
   "name": "@transomjs/transom-scaffold",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Serve static content and assets from your Transom REST API.",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,5 @@
     "shelljs": "^0.7.8",
     "sinon": "^4.1.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
