@@ -1,7 +1,7 @@
 {
-  "name": "@transomjs/transom-smtp",
-  "version": "1.0.2",
-  "description": "Add SMTP functions and email templating to server-side Transom code",
+  "name": "@transomjs/transom-scaffold",
+  "version": "1.0.0",
+  "description": "Serve static content and assets from your Transom REST API.",
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/transomjs/transom-smtp.git"
+    "url": "git+https://github.com/transomjs/transom-scaffold.git"
   },
   "keywords": [
     "smtp",
@@ -18,9 +18,9 @@
   "author": "Mark Voorberg <mark@binaryops.ca>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/transomjs/transom-smtp/issues"
+    "url": "https://github.com/transomjs/transom-scaffold/issues"
   },
-  "homepage": "https://github.com/transomjs/transom-smtp#readme",
+  "homepage": "https://github.com/transomjs/transom-scaffold#readme",
   "engines": {
     "node": ">= 6"
   },
@@ -35,6 +35,5 @@
     "sinon": "^4.1.1"
   },
   "dependencies": {
-    "nodemailer": "^4.3.1"
   }
 }
