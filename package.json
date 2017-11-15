@@ -1,6 +1,6 @@
 {
   "name": "@transomjs/transom-smtp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Add SMTP functions and email templating to server-side Transom code",
   "main": "index.js",
   "scripts": {
