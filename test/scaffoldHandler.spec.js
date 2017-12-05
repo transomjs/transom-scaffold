@@ -6,12 +6,6 @@ const ScaffoldHandler = require('../lib/scaffoldHandler');
 
 describe('ScaffoldHandler', function () {
 
-    // beforeEach(function () {
-    // });
-
-    // afterEach(function () {
-    // });
-
     it('should be an Object with three methods', function () {
         var dummyServer = {};
         dummyServer.get = sinon.spy();
@@ -22,14 +16,10 @@ describe('ScaffoldHandler', function () {
         expect(scaffoldHandler.addStaticAssetRoute).to.be.an.instanceOf(Function);
         expect(scaffoldHandler.addRedirectRoute).to.be.an.instanceOf(Function);
         expect(scaffoldHandler.addTemplateRoute).to.be.an.instanceOf(Function);
-        // expect(Object.keys(scaffoldHandler).length).to.be.equal(3);
+        expect(Object.keys(scaffoldHandler).length).to.be.equal(3);
     });
 
     it('should setup three \'get\' routes on the server', function () {
-
-        // const reqHandler = function (req, res, next) {
-        //     // console.log("args:", arguments);
-        // };
 
         var dummyServer = {};
         dummyServer.get = sinon.spy();
@@ -90,13 +80,27 @@ describe('ScaffoldHandler', function () {
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffold = {
-            // path: '/myPath',
             redirect: '/redirectPath'
         };
         scaffoldHandler.addRedirectRoute(dummyServer, "piglet", scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
         const uri = dummyServer.get.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/piglet');
+    });
+
+    it('should setup a redirect route with path', function () {
+        var dummyServer = {};
+        dummyServer.get = sinon.spy();
+
+        const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
+        const scaffold = {
+            path: '/myPath',
+            redirect: '/redirectPath'
+        };
+        scaffoldHandler.addRedirectRoute(dummyServer, "piglet", scaffold);
+        expect(dummyServer.get.calledOnce).to.be.true;
+        const uri = dummyServer.get.args[0][0]; // first call, first arg.
+        expect(uri).to.be.equal('/myPath');
     });
 
 });
