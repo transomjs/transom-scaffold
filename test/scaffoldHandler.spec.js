@@ -27,17 +27,14 @@ describe('ScaffoldHandler', function () {
 
     it('should setup three \'get\' routes on the server', function () {
 
-        const reqHandler = function (req, res, next) {
-            console.log("args:", arguments);
-        };
+        // const reqHandler = function (req, res, next) {
+        //     // console.log("args:", arguments);
+        // };
 
         var dummyServer = {};
-        dummyServer.get = sinon.spy(function (uri, reqHandler) {
-            console.log(arguments);
-        });
+        dummyServer.get = sinon.spy();
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
-        const key = "foo";
         const scaffold = {
             serveStatic: sinon.spy(function (options) {
                 return options;
@@ -60,24 +57,24 @@ describe('ScaffoldHandler', function () {
 
     });
 
-    it('should setup a /automobile route on the server', function () {
-
+    it('should setup a static asset route on the server', function () {
         var dummyServer = {};
-        dummyServer.get = sinon.spy(function (uri) {});
+        dummyServer.get = sinon.spy();
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
-        // const key = "foobar";
         const scaffold = {
             serveStatic: sinon.spy(function (options) {
                 return options;
             }),
-            path: '/assets/a*',
+            path: '/myPath',
             defaultAsset: 'default.png'
         };
         scaffoldHandler.addStaticAssetRoute(dummyServer, "horse", scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
+        const uri = dummyServer.get.args[0][0]; // first call, first arg.
+        expect(uri).to.be.equal('/myPath');
 
-        dummyServer.get('/assets/foo.jpg');
+        dummyServer.get('/foo.jpg');
         expect(scaffold.serveStatic.calledOnce).to.be.true;
         const args = scaffold.serveStatic.args[0][0]; // first call, first arg.
 
@@ -85,7 +82,21 @@ describe('ScaffoldHandler', function () {
         expect(args.default).to.equal("default.png");
         const testPath = path.join(__dirname, "..", "horse");
         expect(args.directory).to.equal(testPath);
+    });
 
+    it('should setup a redirect route on the server', function () {
+        var dummyServer = {};
+        dummyServer.get = sinon.spy();
+
+        const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
+        const scaffold = {
+            // path: '/myPath',
+            redirect: '/redirectPath'
+        };
+        scaffoldHandler.addRedirectRoute(dummyServer, "piglet", scaffold);
+        expect(dummyServer.get.calledOnce).to.be.true;
+        const uri = dummyServer.get.args[0][0]; // first call, first arg.
+        expect(uri).to.be.equal('/piglet');
     });
 
 });
