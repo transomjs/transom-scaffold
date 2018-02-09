@@ -62,3 +62,7 @@ scaffold: {
 	}
 }
 ```
+
+## Examples that use this plugin
+[Transom Scaffold Example](https://github.com/binaryops-wiebo/transom-scaffold-example)
+[Transom Secured Server Functions Example](https://github.com/binaryops-wiebo/transom-functions-secured-example)
