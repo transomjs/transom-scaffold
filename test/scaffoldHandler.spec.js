@@ -25,24 +25,36 @@ describe('ScaffoldHandler', function () {
         dummyServer.get = sinon.spy();
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
-        const scaffold = {
+        const scaffoldA = {
+            path: /(js|css|fonts|images)\/?.*/,
+            folder: 'static-assets',
             serveStatic: sinon.spy(function (options) {
                 return options;
             })
         };
-        scaffoldHandler.addStaticAssetRoute(dummyServer, "one", scaffold);
-        scaffoldHandler.addRedirectRoute(dummyServer, "two", scaffold);
-        scaffoldHandler.addTemplateRoute(dummyServer, "three", scaffold);
+        scaffoldHandler.addStaticAssetRoute(dummyServer, scaffoldA);
+
+        const scaffoldB = {
+            path: '/foo',
+            target: '/bar'
+        };       
+        scaffoldHandler.addRedirectRoute(dummyServer, scaffoldB);
+
+        const scaffoldC = {
+            path: '/foo',
+            redirect: '/bar'
+        };               
+        scaffoldHandler.addTemplateRoute(dummyServer, 'baz', scaffoldC);
 
         expect(dummyServer.get.calledThrice).to.be.true;
 
         dummyServer.get('one');
-        expect(scaffold.serveStatic.calledOnce).to.be.true;
-        const args = scaffold.serveStatic.args[0][0]; // first call, first arg.
+        expect(scaffoldA.serveStatic.calledOnce).to.be.true;
+        const args = scaffoldA.serveStatic.args[0][0]; // first call, first arg.
 
         expect(args.appendRequestPath).to.be.true;
         expect(args.default).to.equal("index.html");
-        const testPath = path.join(__dirname, "..", "one");
+        const testPath = path.join(__dirname, "..", "static-assets");
         expect(args.directory).to.equal(testPath);
 
     });
@@ -57,9 +69,10 @@ describe('ScaffoldHandler', function () {
                 return options;
             }),
             path: '/myPath',
+            folder: 'my-assets',
             defaultAsset: 'default.png'
         };
-        scaffoldHandler.addStaticAssetRoute(dummyServer, "horse", scaffold);
+        scaffoldHandler.addStaticAssetRoute(dummyServer, scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
         const uri = dummyServer.get.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/myPath');
@@ -70,7 +83,7 @@ describe('ScaffoldHandler', function () {
 
         expect(args.appendRequestPath).to.be.true;
         expect(args.default).to.equal("default.png");
-        const testPath = path.join(__dirname, "..", "horse");
+        const testPath = path.join(__dirname, "..", "my-assets");
         expect(args.directory).to.equal(testPath);
     });
 
@@ -80,9 +93,10 @@ describe('ScaffoldHandler', function () {
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffold = {
-            redirect: '/redirectPath'
+            path: '/piglet',
+            target: '/redirectPath'
         };
-        scaffoldHandler.addRedirectRoute(dummyServer, "piglet", scaffold);
+        scaffoldHandler.addRedirectRoute(dummyServer, scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
         const uri = dummyServer.get.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/piglet');
@@ -95,9 +109,9 @@ describe('ScaffoldHandler', function () {
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffold = {
             path: '/myPath',
-            redirect: '/redirectPath'
+            target: '/redirectPath'
         };
-        scaffoldHandler.addRedirectRoute(dummyServer, "chicken", scaffold);
+        scaffoldHandler.addRedirectRoute(dummyServer, scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
         const uri = dummyServer.get.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/myPath');
@@ -110,7 +124,7 @@ describe('ScaffoldHandler', function () {
         fn({}, res, next);
         expect(res.redirect.calledOnce).to.be.true;
         const redirectArgs = res.redirect.args[0];
-        expect(redirectArgs[0]).to.equal(scaffold.redirect);
+        expect(redirectArgs[0]).to.equal(scaffold.target);
     });
 
     it('should setup a template route with data and headers', function (done) {
