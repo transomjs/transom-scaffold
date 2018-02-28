@@ -37,8 +37,7 @@ transom.configure(transomScaffold, {
       templateName: "Person",
       data: {
         pageTitle: "Person",
-        appName: 'Transom Scaffold Demo',
-        anything: '/v1/db/person'
+        appName: 'Transom Scaffold Demo'
       }
     }  
   }
