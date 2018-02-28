@@ -102,6 +102,7 @@ Each additional property of `scaffold` is used to create a `GET` route that rend
     }
   }
 ```
+Translates to a route at `http://localhost:7000/about` that responds with a templated web page, including a title of `Verify`, an App name of `Transom Scaffold Demo` etc.
 
 ## Examples that use this plugin
  * [Transom Scaffold Example](https://github.com/binaryops-wiebo/transom-scaffold-example)
