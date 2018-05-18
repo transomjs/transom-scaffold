@@ -51,8 +51,7 @@ const server = transom.initialize(myApi);
 The options can be passed in to the configure as above, or the `scaffold` object can be created as a property of the `definition` object in your Transom configuration. There are two named attributes of scaffold that have special meaning.
 
 #### staticRoutes
-`staticRoutes` is an Array of Objects used to create `GET` routes to serve static content. Each entry must include a `path` and a `folder` in the application root where static content can be stored. The path can be a regex, or a string and is used to create a new route to files stored in the specified folder. Note that the URL path is combined with the folder path to allow further organizing of static resources.
-
+`staticRoutes` is an Array of Objects used to create `GET` routes to serve static content. Each entry must include a `path` and a `folder` in the application root where static content can be stored. The path can be a regex, or a string and is used to create a new route to files stored in the specified folder. 
 ```javascript
   scaffold: {
     staticRoutes: [{
@@ -61,10 +60,25 @@ The options can be passed in to the configure as above, or the `scaffold` object
     }],
   }
 ```
+
 Translates to routes which serve the following files:
  * `http://localhost:7000/fonts/comic-sans.ttf` <br>&emsp;&#8680;&emsp; `/static-assets/fonts/comic-sans.ttf`<br><br>
  * `http://localhost:7000/images/logo.png` <br>&emsp;&#8680;&emsp; `/static-assets/images/logo.png`<br><br>
  * `http://localhost:7000/js/bootstrap-select/js/bootstrap-select.js` <br>&emsp;&#8680;&emsp; `/static-assets/js/bootstrap-select/js/bootstrap-select.js`<br><br>
+
+> Note that by default, the URL path is combined with the folder path to allow further organizing of static resources.
+> This can be disabled by setting `appendRequestPath` to `false`. 
+> ```javascript
+>   scaffold: {
+>     staticRoutes: [{
+>       path: /scripts\/?.*/,
+>       folder: 'static-assets',
+>       appendRequestPath: false
+>     }],
+>   }
+> ```
+> Translates to routes where only the file name is relevant:
+> * `http://localhost:7000/scripts/foo/bar/baz/bootstrap.js` <br>&emsp;&#8680;&emsp; `/static-assets/bootstrap.js`<br>
 
 
 #### redirectRoutes
