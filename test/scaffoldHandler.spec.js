@@ -19,6 +19,56 @@ describe('ScaffoldHandler', function () {
         expect(Object.keys(scaffoldHandler).length).to.be.equal(3);
     });
 
+    xit('should add three routes during Object constructor', function () {
+        var dummyServer = {};
+        dummyServer.get = sinon.spy();
+
+        const dummyAPI = {
+            scaffold: {
+                staticRoutes: [{
+                    path: /(js|css|fonts|images)\/?.*/,
+                    folder: 'static-assets'
+                }],
+                redirectRoutes: [{
+                        path: '/',
+                        target: '/login'
+                    },
+                    {
+                        path: '/dummy',
+                        target: '/login'
+                    }
+                ],
+                person: {
+                    templateName: "Person",
+                    data: {
+                        pageTitle: "Person",
+                        appName: 'Transom Scaffold Demo'
+                    }
+                }
+            }
+        };
+        const scaffoldHandler = new ScaffoldHandler(dummyServer, dummyAPI);
+
+        expect(scaffoldHandler).to.be.an.instanceOf(Object);
+        expect(scaffoldHandler.addStaticAssetRoute).to.be.an.instanceOf(Function);
+        expect(scaffoldHandler.addRedirectRoute).to.be.an.instanceOf(Function);
+        expect(scaffoldHandler.addTemplateRoute).to.be.an.instanceOf(Function);
+        expect(Object.keys(scaffoldHandler).length).to.be.equal(3);
+
+        expect(dummyServer.get.calledThrice).to.be.true;
+
+        // dummyServer.get('one');
+        // expect(scaffoldA.serveStatic.calledOnce).to.be.true;
+        // const args = scaffoldA.serveStatic.args[0][0]; // first call, first arg.
+
+        // expect(args.appendRequestPath).to.be.true;
+        // expect(args.default).to.equal("index.html");
+        // const testPath = path.join(__dirname, "..", "static-assets");
+        // expect(args.directory).to.equal(testPath);
+
+        
+    });
+
     it('should setup three \'get\' routes on the server', function () {
 
         var dummyServer = {};
@@ -37,13 +87,13 @@ describe('ScaffoldHandler', function () {
         const scaffoldB = {
             path: '/foo',
             target: '/bar'
-        };       
+        };
         scaffoldHandler.addRedirectRoute(dummyServer, scaffoldB);
 
         const scaffoldC = {
             path: '/foo',
             redirect: '/bar'
-        };               
+        };
         scaffoldHandler.addTemplateRoute(dummyServer, 'baz', scaffoldC);
 
         expect(dummyServer.get.calledThrice).to.be.true;
@@ -147,6 +197,7 @@ describe('ScaffoldHandler', function () {
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffold = {
+            path: '/hippo',
             contentType: 'apple/pear',
             templateName: 'fooTemplate',
             data: {
@@ -154,7 +205,7 @@ describe('ScaffoldHandler', function () {
                 bar: 'baz'
             }
         };
-        scaffoldHandler.addTemplateRoute(dummyServer, "hippo", scaffold);
+        scaffoldHandler.addTemplateRoute(dummyServer, scaffold);
         expect(dummyServer.get.calledOnce).to.be.true;
         const uri = dummyServer.get.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/hippo');
