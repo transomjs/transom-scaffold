@@ -2,6 +2,7 @@
 Add routes for static assets, redirects and template based content to your Transom server. 
 
 [![Build Status](https://travis-ci.org/transomjs/transom-scaffold.svg?branch=master)](https://travis-ci.org/transomjs/transom-scaffold)
+[![Coverage Status](https://coveralls.io/repos/github/transomjs/transom-scaffold/badge.svg?branch=master)](https://coveralls.io/github/transomjs/transom-scaffold?branch=master)
 
 ## Installation
 
