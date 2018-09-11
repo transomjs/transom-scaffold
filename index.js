@@ -18,20 +18,20 @@ function TransomScaffold() {
 				if (key === 'staticRoutes') {
 					const staticRoutes = Array.isArray(scaffold) ? scaffold : [scaffold];
 					staticRoutes.map(function (route) {
-						debug(`Setting up '${route.path}' static asset route`);
+						debug(`Setting up '${route.path}' as a static asset route`);
 						scaffoldHandler.addStaticAssetRoute(server, route);
 					});
 				} else if (key === 'redirectRoutes') {
 					const redirectRoutes = Array.isArray(scaffold) ? scaffold : [scaffold];
 					redirectRoutes.map(function (route) {
-						debug(`Setting up '${route.path}' redirect route`);
+						debug(`Setting up '${route.path}' as a redirect route`);
 						scaffoldHandler.addRedirectRoute(server, route);
 					});
 				} else {
 					scaffold.path = scaffold.path || `/${key.toLowerCase()}`;
-					debug(`Setting up '${scaffold.path}' template route`);
 					scaffold.templateName = scaffold.templateName || key;
 					scaffold.templateHandler = options.templateHandler || 'transomTemplate';
+					debug(`Setting up '${scaffold.path}' as a template route to ${scaffold.templateName}`);
 					scaffoldHandler.addTemplateRoute(server, scaffold);
 				}
 			});
