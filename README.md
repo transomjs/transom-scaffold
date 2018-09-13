@@ -68,7 +68,7 @@ Translates to routes which serve the following files:
 
 
 #### redirectRoutes
-`redirectRoutes` is an Array of Objects used to create `GET` routes that redirect to the target. Each entry must include a `path` which is used to create routes that redirect to the location specified by the `target`.
+`redirectRoutes` is an Array of Objects used to create `GET` routes that redirect to the target. Each entry must include a `path` which is used to create routes that redirect to the location specified by the `target`. Target follows the `options` spec as defined in the [Restify.redirect documentation](http://restify.com/docs/response-api/#redirect).
 
 ```javascript
   scaffold: {
@@ -78,7 +78,10 @@ Translates to routes which serve the following files:
     },
     {
       path: '/dummy',
-      target: '/foobar'
+      target: {
+        pathname: '/foo/bar',
+        permanent: true
+      }
     }]
   }
 ```
