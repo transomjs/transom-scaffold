@@ -1,6 +1,6 @@
 {
   "name": "@transomjs/transom-scaffold",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Serve static assets and add redirect routes to a Transom REST API.",
   "main": "index.js",
   "scripts": {
