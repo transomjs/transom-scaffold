@@ -45,6 +45,5 @@
   "peerDependencies": {
     "@transomjs/transom-core": "^1.0.8"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
