@@ -28,6 +28,7 @@ describe('ScaffoldHandler', function () {
         const scaffoldA = {
             path: /(js|css|fonts|images)\/?.*/,
             folder: 'static-assets',
+            appendRequestPath: true,
             serveStatic: sinon.spy(function (options) {
                 return options;
             })
@@ -55,6 +56,42 @@ describe('ScaffoldHandler', function () {
         expect(args.appendRequestPath).to.be.true;
         expect(args.default).to.equal("index.html");
         const testPath = path.join(__dirname, "..", "static-assets");
+        expect(args.directory).to.equal(testPath);
+
+    });
+
+
+    it('should setup a static route (no folder) on the server', function () {
+
+        var dummyServer = {};
+        dummyServer.get = sinon.spy();
+        dummyServer.plugins = {
+            serveStatic: sinon.spy(function (options) {
+                return options;
+            }),
+            appendRequestPath: false
+        }
+
+        const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
+        const scaffoldA = {
+            path: /(js|css|fonts|images)\/?.*/,
+            // folder: 'static-assets',
+            appendRequestPath: false,
+            serveStatic: sinon.spy(function (options) {
+                return options;
+            })
+        };
+        scaffoldHandler.addStaticAssetRoute(dummyServer, scaffoldA);
+
+        expect(dummyServer.get.calledOnce).to.be.true;
+
+        dummyServer.get('one');
+        expect(scaffoldA.serveStatic.calledOnce).to.be.true;
+        const args = scaffoldA.serveStatic.args[0][0]; // first call, first arg.
+
+        expect(args.appendRequestPath).to.be.false;
+        expect(args.default).to.equal("index.html");
+        const testPath = path.join(__dirname, "..", path.sep);
         expect(args.directory).to.equal(testPath);
 
     });
@@ -178,6 +215,57 @@ describe('ScaffoldHandler', function () {
             expect(res.end.calledOnce).to.be.true;
             const endArgs = res.end.args[0];
             const dummy = 'fooTemplate\nbar:baz\nfoo:123\nheaders:jazz\nparams:cookie';
+            expect(endArgs[0]).to.equal(dummy);
+            done();
+        });
+    });
+
+    it('should setup a template route with no data and no contentType', function (done) {
+        var dummyServer = {
+            registry: {
+                get: function () {
+                    return {
+                        renderHtmlTemplate: function (templateName, data) {
+                            let result = templateName;
+                            Object.keys(data).sort().map((key) => {
+                                result += `\n${key}:${data[key]}`;
+                            });
+                            return result;
+                        }
+                    }
+                }
+            }
+        };
+        dummyServer.get = sinon.spy();
+
+        const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
+        const scaffold = {
+            path: '/hippo',
+            templateName: 'fooTemplate'
+        };
+        scaffoldHandler.addTemplateRoute(dummyServer, scaffold);
+        expect(dummyServer.get.calledOnce).to.be.true;
+        const uri = dummyServer.get.args[0][0]; // first call, first arg.
+        expect(uri).to.be.equal('/hippo');
+        const fn = dummyServer.get.args[0][1];
+        const req = {
+            headers: "jazz",
+            params: "cookie"
+        };
+        const res = {
+            setHeader: sinon.spy(),
+            end: sinon.spy(),
+        };
+
+        fn(req, res, function () {
+            expect(res.setHeader.calledOnce).to.be.true;
+            const setHeaderArgs = res.setHeader.args[0];
+            expect(setHeaderArgs[0]).to.equal('content-type');
+            expect(setHeaderArgs[1]).to.equal("text/html");
+
+            expect(res.end.calledOnce).to.be.true;
+            const endArgs = res.end.args[0];
+            const dummy = 'fooTemplate\nheaders:jazz\nparams:cookie';
             expect(endArgs[0]).to.equal(dummy);
             done();
         });
