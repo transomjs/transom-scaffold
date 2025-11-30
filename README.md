@@ -1,6 +1,8 @@
 # Transom Scaffold
 Add routes for static assets, redirects and template based content to your Transom server. 
 
+**Version 2.0+ is compatible with Transom Core v5+ (Express-based) while maintaining backward compatibility.**
+
 [![Build Status](https://travis-ci.org/transomjs/transom-scaffold.svg?branch=master)](https://travis-ci.org/transomjs/transom-scaffold)
 [![Coverage Status](https://coveralls.io/repos/github/transomjs/transom-scaffold/badge.svg?branch=master)](https://coveralls.io/github/transomjs/transom-scaffold?branch=master)
 
@@ -68,7 +70,7 @@ Translates to routes which serve the following files:
 
 
 #### redirectRoutes
-`redirectRoutes` is an Array of Objects used to create `GET` routes that redirect to the target. Each entry must include a `path` which is used to create routes that redirect to the location specified by the `target`. Target follows the `options` spec as defined in the [Restify.redirect documentation](http://restify.com/docs/response-api/#redirect).
+`redirectRoutes` is an Array of Objects used to create `GET` routes that redirect to the target. Each entry must include a `path` which is used to create routes that redirect to the location specified by the `target`. Target can be a string URL or an object with `pathname` and optional `permanent` properties for controlling redirect behavior.
 
 ```javascript
   scaffold: {

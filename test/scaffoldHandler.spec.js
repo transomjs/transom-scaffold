@@ -23,6 +23,7 @@ describe('ScaffoldHandler', function () {
 
         var dummyServer = {};
         dummyServer.get = sinon.spy();
+        dummyServer.use = sinon.spy();
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffoldA = {
@@ -47,9 +48,11 @@ describe('ScaffoldHandler', function () {
         };
         scaffoldHandler.addTemplateRoute(dummyServer, 'baz', scaffoldC);
 
-        expect(dummyServer.get.calledThrice).to.be.true;
+        // Static route uses 'use', redirect and template routes use 'get'
+        expect(dummyServer.use.calledOnce).to.be.true;
+        expect(dummyServer.get.calledTwice).to.be.true;
 
-        dummyServer.get('one');
+        dummyServer.use('path', 'middleware');
         expect(scaffoldA.serveStatic.calledOnce).to.be.true;
         const args = scaffoldA.serveStatic.args[0][0]; // first call, first arg.
 
@@ -65,6 +68,7 @@ describe('ScaffoldHandler', function () {
 
         var dummyServer = {};
         dummyServer.get = sinon.spy();
+        dummyServer.use = sinon.spy();
         dummyServer.plugins = {
             serveStatic: sinon.spy(function (options) {
                 return options;
@@ -83,9 +87,9 @@ describe('ScaffoldHandler', function () {
         };
         scaffoldHandler.addStaticAssetRoute(dummyServer, scaffoldA);
 
-        expect(dummyServer.get.calledOnce).to.be.true;
+        expect(dummyServer.use.calledOnce).to.be.true;
 
-        dummyServer.get('one');
+        dummyServer.use('one', 'two');
         expect(scaffoldA.serveStatic.calledOnce).to.be.true;
         const args = scaffoldA.serveStatic.args[0][0]; // first call, first arg.
 
@@ -99,6 +103,7 @@ describe('ScaffoldHandler', function () {
     it('should setup a static asset route on the server', function () {
         var dummyServer = {};
         dummyServer.get = sinon.spy();
+        dummyServer.use = sinon.spy();
 
         const scaffoldHandler = new ScaffoldHandler(dummyServer, {});
         const scaffold = {
@@ -110,11 +115,11 @@ describe('ScaffoldHandler', function () {
             defaultAsset: 'default.png'
         };
         scaffoldHandler.addStaticAssetRoute(dummyServer, scaffold);
-        expect(dummyServer.get.calledOnce).to.be.true;
-        const uri = dummyServer.get.args[0][0]; // first call, first arg.
+        expect(dummyServer.use.calledOnce).to.be.true;
+        const uri = dummyServer.use.args[0][0]; // first call, first arg.
         expect(uri).to.be.equal('/myPath');
 
-        dummyServer.get('/foo.jpg');
+        dummyServer.use('/foo.jpg', 'middleware');
         expect(scaffold.serveStatic.calledOnce).to.be.true;
         const args = scaffold.serveStatic.args[0][0]; // first call, first arg.
 
