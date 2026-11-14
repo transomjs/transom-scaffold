@@ -47,7 +47,7 @@
     "typescript": "^7.0.2"
   },
   "peerDependencies": {
-    "@transomjs/transom-core": "^5.0.1"
+    "@transomjs/transom-core": "^7.0.0"
   },
   "dependencies": {
     "@types/express": "^4.17.25"

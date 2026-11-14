@@ -1,5 +1,9 @@
 # @transomjs/transom-scaffold change log
 
+## 7.0.1
+- Fixed: the `@transomjs/transom-core` peer dependency was still `^5.0.1`, so npm refused to
+  install transom-scaffold 7 alongside transom-core 7. It's now `^7.0.0`.
+
 ## 7.0.0
 - Dev tools: mocha 12, chai 6, c8 12, sinon 22, cross-env 10, open-cli 9; tests run against
   transom-core 7. The unused shelljs is removed. Express (and `@types/express`) stay on 4 to
