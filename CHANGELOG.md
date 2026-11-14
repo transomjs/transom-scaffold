@@ -1,6 +1,9 @@
 # @transomjs/transom-scaffold change log
 
 ## 6.0.0
+- Dev tools: mocha 12, chai 6, c8 12, sinon 22, cross-env 10, open-cli 9; tests run against
+  transom-core 7. The unused shelljs is removed. Express (and `@types/express`) stay on 4 to
+  match transom-core, which provides the Express app.
 - **Requires Node.js 22 or newer** (`engines.node` is `>=22`). The compiled code targets ES2023,
   and CI runs on Node 22 and 24.
 - Rewritten in TypeScript, with type definitions. The compiled code is in `dist/`;
