@@ -3,8 +3,7 @@ Add routes for static assets, redirects and template based content to your Trans
 
 **Version 2.0+ is compatible with Transom Core v5+ (Express-based) while maintaining backward compatibility.**
 
-[![Build Status](https://travis-ci.org/transomjs/transom-scaffold.svg?branch=master)](https://travis-ci.org/transomjs/transom-scaffold)
-[![Coverage Status](https://coveralls.io/repos/github/transomjs/transom-scaffold/badge.svg?branch=master)](https://coveralls.io/github/transomjs/transom-scaffold?branch=master)
+[![CI](https://github.com/transomjs/transom-scaffold/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/transomjs/transom-scaffold/actions/workflows/ci.yml)
 
 ## Installation
 
