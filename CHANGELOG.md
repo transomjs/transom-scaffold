@@ -1,5 +1,13 @@
 # @transomjs/transom-scaffold change log
 
+## Unreleased
+- Rewritten in TypeScript, with type definitions. The compiled code is in `dist/`;
+  `require("@transomjs/transom-scaffold")` and `.../lib/scaffoldHandler` return the same
+  things as before, and static folders are still resolved from the application's root.
+- Types: `Definition` (the `definition.scaffold` section), `StaticRoute`, `RedirectRoute`,
+  `TemplateRoute`, `Options` and `Handler`. `@types/express` is now a dependency, since the
+  types build on it.
+
 ## 2.0.0
 - **BREAKING CHANGE**: Updated for Transom Core v5+ Express compatibility
 - Replaced Restify dependencies with Express static middleware
