@@ -1,6 +1,6 @@
 {
   "name": "@transomjs/transom-scaffold",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Serve static assets and add redirect routes to a Transom REST API (Express compatible).",
   "main": "dist/index.js",
   "scripts": {
